@@ -23,8 +23,15 @@ for hospital in hospitals:
 
         c1_1 = hospital.select_one('div.deyx8d > div > div > div.YtX3Td > div:nth-child(3) > span:nth-child(1)')
         c1_2 = hospital.select_one('div.deyx8d > div > div > div.YtX3Td > div:nth-child(3) > span:nth-child(2)')
-        tel_1 = c1_1.text
-        tel_2 = c1_2.text
+        if (c1_1 != None):
+            tel_1 = c1_1.text
+        else:
+            c1_1 = ""
+
+        if (c1_2 != None):
+            tel_2 = c1_2.text
+        else:
+            c1_2 = ""
 
         if '-' not in tel_1:
             tel_1 = None
@@ -39,15 +46,19 @@ for hospital in hospitals:
 
         d1_1 = hospital.select_one('div.deyx8d > div > div > div.YtX3Td > div:nth-child(3) > span:nth-child(2) > span')
         d1_2 = hospital.select_one('div.deyx8d > div > div > div.YtX3Td > div:nth-child(3) > span:nth-child(3) > span')
-        if (d1_1!= None):
+
+        if (d1_1 != None):
             address = d1_1.text
         else:
+            d1_1 = ""
+
+        if (d1_2 != None):
             address = d1_2.text
+        else:
+            d1_2 = ""
 
-        print(name,phone,address,opening_hours)
-
-
-
-
-
-
+        e1 = hospital.select_one('div.deyx8d > div > div > div.z6yOqb.i1baHb > img')
+        if(e1 != None):
+            photo = e1['src']
+        else:
+            photo = 'https://previews.123rf.com/images/siamimages/siamimages1504/siamimages150401064/39173277-%EC%82%AC%EC%A7%84-%EC%97%86%EC%9D%8C-%EC%95%84%EC%9D%B4%EC%BD%98-%EC%97%86%EC%9D%8C.jpg'
