@@ -1,0 +1,53 @@
+import requests
+from bs4 import BeautifulSoup
+
+headers = {
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36'}
+data = requests.get(
+    'https://www.google.com/localservices/prolist?g2lbs=AL1YbfU2_G6oRy7bHObp5Xqp13bAnvJsRsvZOWdGghzny7VniZ6jfVjHIJCdCZLDu0y0FRWOblja&hl=ko-KR&gl=kr&ssta=1&q=%EA%B2%BD%EA%B8%B0%EB%8F%84%EB%8F%99%EB%AC%BC%EB%B3%91%EC%9B%90&oq=%EA%B2%BD%EA%B8%B0%EB%8F%84%EB%8F%99%EB%AC%BC%EB%B3%91%EC%9B%90&scp=ChRnY2lkOmFuaW1hbF9ob3NwaXRhbBJJEhIJjbZ-5eR5fDURwrX21pgfDAEaEgmbuhHL61VkNRFL24i6AJskkSIJ6rK96riw64-EKhQNppL9FRW6-ExLHRaG1BYl_p41TBoM64-Z66y867OR7JuQIhXqsr3quLDrj4Trj5nrrLzrs5Hsm5AqDOuPmeusvOuzkeybkA%3D%3D&slp=MgBSAggC&src=2&origin=https%3A%2F%2Fwww.google.com&sa=X&ved=2ahUKEwia6fGHmfL4AhUhqFYBHR-OB6wQjGp6BAgCEEY&lci=0',
+    headers=headers)
+
+soup = BeautifulSoup(data.text, 'html.parser')
+
+hospitals = soup.select(
+    '#yDmH0d > c-wiz > div > div:nth-child(3) > div > div > div.XJInM > div.YhtaGd.aQOEkf > div.jq95K > c-wiz > div > div > div.Jtakfe > c-wiz > div > div')
+for hospital in hospitals:
+    a1 = hospital.select_one('div.deyx8d > div > div > div.YtX3Td > div.rgnuSb.xYjf2e')
+    if (a1 != None):
+        name = a1.text
+        b1 = hospital.select_one('div.deyx8d > div > div > div.YtX3Td > div:nth-child(3) > span:nth-child(1) > span')
+        if (b1 != None):
+            opening_hours = b1.text
+        else:
+            opening_hours = ""
+
+        c1_1 = hospital.select_one('div.deyx8d > div > div > div.YtX3Td > div:nth-child(3) > span:nth-child(1)')
+        c1_2 = hospital.select_one('div.deyx8d > div > div > div.YtX3Td > div:nth-child(3) > span:nth-child(2)')
+        tel_1 = c1_1.text
+        tel_2 = c1_2.text
+
+        if '-' not in tel_1:
+            tel_1 = None
+            if (tel_1 == None):
+                tel_1 = ""
+        if '-' not in tel_2:
+            tel_2 = None
+            if (tel_2 == None):
+                tel_2 = ""
+
+        phone = tel_1 + tel_2
+
+        d1_1 = hospital.select_one('div.deyx8d > div > div > div.YtX3Td > div:nth-child(3) > span:nth-child(2) > span')
+        d1_2 = hospital.select_one('div.deyx8d > div > div > div.YtX3Td > div:nth-child(3) > span:nth-child(3) > span')
+        if (d1_1!= None):
+            address = d1_1.text
+        else:
+            address = d1_2.text
+
+        print(name,phone,address,opening_hours)
+
+
+
+
+
+
