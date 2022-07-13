@@ -13,8 +13,9 @@ app.config['UPLOAD_FOLDER'] = "./static/profile_pics"
 
 SECRET_KEY = 'SPARTA'
 
-client = MongoClient('13.209.8.100', 27017, username="dlgksqor", password="sparta")
-db = client.dbsparta_plus_week4
+client = MongoClient('mongodb+srv://test:sparta@cluster0.bb9vi.mongodb.net/?retryWrites=true&w=majority')
+db = client.test
+
 
 
 @app.route('/')
@@ -72,31 +73,29 @@ def sign_in():
         return jsonify({'result': 'fail', 'msg': '아이디/비밀번호가 일치하지 않습니다.'})
 
 
+#회원가입
 @app.route('/sign_up/save', methods=['POST'])
 def sign_up():
-    # 회원가입
     username_receive = request.form['username_give']
     password_receive = request.form['password_give']
     password_hash = hashlib.sha256(password_receive.encode('utf-8')).hexdigest()
-    # DB에 저장
+    doc = {
+        "username": username_receive,                               # 아이디
+        "password": password_hash,                                  # 비밀번호
+        "profile_name": username_receive,                           # 프로필 이름 기본값은 아이디
+        "profile_pic": "",                                          # 프로필 사진 파일 이름
+        "profile_pic_real": "profile_pics/profile_placeholder.png", # 프로필 사진 기본 이미지
+        "profile_info": ""                                          # 프로필 한 마디
+    }
+    db.users.insert_one(doc)
     return jsonify({'result': 'success'})
 
-
+#중복확인
 @app.route('/sign_up/check_dup', methods=['POST'])
 def check_dup():
-    # ID 중복확인
-    return jsonify({'result': 'success'})
-
-
-@app.route('/update_profile', methods=['POST'])
-def save_img():
-    token_receive = request.cookies.get('mytoken')
-    try:
-        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-        # 프로필 업데이트
-        return jsonify({"result": "success", 'msg': '프로필을 업데이트했습니다.'})
-    except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
-        return redirect(url_for("home"))
+    username_receive = request.form['username_give']
+    exists = bool(db.users.find_one({"username": username_receive}))
+    return jsonify({'result': 'success', 'exists': exists})
 
 
 @app.route('/posting', methods=['POST'])
