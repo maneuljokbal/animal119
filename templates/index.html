@@ -13,6 +13,12 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
         <!-- Font Awesome CSS -->
         <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Cute+Font&family=Jua&display=swap" rel="stylesheet">
+
+
+
 
         <!-- JS -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -21,8 +27,56 @@
 
         <script>
         </script>
+        <style>
+            .logout-button{
+                margin-top: 10px;
+                float: right;
+                font-family: 'jua', sans-serif;
 
+            }
+
+
+            .title {
+                font-weight: 700;
+                font-size: 4rem;
+                font-family: 'Jua', sans-serif;
+                margin: 0px;
+            }
+
+            .subtitle {
+                font-size: 3rem;
+                font-family: 'Cute Font', cursive;
+                margin: 0px;
+            }
+
+            .appbar {
+                height: 10rem;
+
+            }
+
+            .appbar-text {
+                margin-top: -40px;
+            }
+        </style>
     </head>
     <body>
+        <section class="appbar hero is-link">
+            <div class="appbar-text hero-body">
+
+                <span class="title">
+                    Animal 119
+                </span>
+                    <button class="logout-button button is-link is-light" type="button"
+                            onclick="location.href='http://localhost:5500/login?msg=%EB%A1%9C%EA%B7%B8%EC%9D%B8+%EC%A0%95%EB%B3%B4%EA%B0%80+%EC%A1%B4%EC%9E%AC%ED%95%98%EC%A7%80+%EC%95%8A%EC%8A%B5%EB%8B%88%EB%8B%A4.' ">
+                        로그 아웃
+                    </button>
+                <p class="subtitle">
+                    24H 동물병원
+                </p>
+            </div>
+        </section>
+        <strong> 로그인 된 메인 페이지</strong>
+
+
     </body>
 </html>
