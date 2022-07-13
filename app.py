@@ -1,4 +1,5 @@
 from pymongo import MongoClient
+import certifi
 import jwt
 import datetime
 import hashlib
@@ -13,8 +14,10 @@ app.config['UPLOAD_FOLDER'] = "./static/profile_pics"
 
 SECRET_KEY = 'SPARTA'
 
-client = MongoClient('mongodb+srv://test:sparta@cluster0.bb9vi.mongodb.net/?retryWrites=true&w=majority')
-db = client.test
+ca = certifi.where()
+
+client = MongoClient('mongodb+srv://dlgksqor:sparta@cluster0.jueqc.mongodb.net/?retryWrites=true&w=majority',tlsCAFile=ca)
+db = client.animal
 
 
 
@@ -63,11 +66,11 @@ def sign_in():
     if result is not None:
         payload = {
          'id': username_receive,
-         'exp': datetime.utcnow() + timedelta(seconds=60 * 60 * 24)  # 로그인 24시간 유지
+         'exp': datetime.utcnow() + timedelta(seconds= 60 * 60 * 24)  # 로그인 24시간 유지
         }
-        token = jwt.encode(payload, SECRET_KEY, algorithm='HS256').decode('utf-8')
+        token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
 
-        return jsonify({'result': 'success', 'token': token})
+        return jsonify({'result': 'success', 'token': token}) # decode('utf-8')
     # 찾지 못하면
     else:
         return jsonify({'result': 'fail', 'msg': '아이디/비밀번호가 일치하지 않습니다.'})
