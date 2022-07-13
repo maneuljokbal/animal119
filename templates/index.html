@@ -1,33 +1,78 @@
-<!doctype html>
-<html lang="en">
+  <!doctype html>
+    <html lang="en">
+
     <head>
-
-        <!-- Webpage Title -->
-        <title>Home | Animal 119</title>
-
-        <!-- Required meta tags -->
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-        <!-- Bulma CSS -->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
-        <!-- Font Awesome CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+              integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+              crossorigin="anonymous">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+                integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+                crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+                integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+        <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet">
         <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Cute+Font&family=Jua&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
 
 
+        <title>동물병원 리스트</title>
 
 
-        <!-- JS -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
-
-
-        <script>
-        </script>
         <style>
+            * {
+                font-family: 'Gowun Dodum', sans-serif;
+            }
+
+
+            .card-body > com {
+
+
+            }
+
+            .div >cards-box {
+                border: 3px solid white;
+
+            }
+
+            .mytitle {
+                width: 100%;
+                height: 250px;
+
+                background-position: center;
+                background-size: cover;
+
+
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .mytitle > button {
+                width: 200px;
+                height: 50px;
+
+                margin-left: 1680px;
+
+
+                color: black;
+
+                border-radius: 50px;
+                border: 1px solid white;
+
+                margin-top: 10px;
+            }
+
+            .mytitle > button:hover {
+                border: 3px solid white;
+            }
             .logout-button{
                 margin-top: 10px;
                 float: right;
@@ -57,17 +102,82 @@
             .appbar-text {
                 margin-top: -40px;
             }
+
+
         </style>
+        <script>
+            function post_information() {
+                $.ajax({
+                    type: 'POST',
+                    url: '/hospital',
+                    data: {},
+                    success: function (response) {
+                        alert(response['msg1'])
+                    }
+                });
+            }
+
+            function get_information() {
+                $.ajax({
+                    type: 'GET',
+                    url: '/hospital',
+                    data: {},
+                    success: function (response) {
+                        console.log(response)
+                        let rows = response['hospital']
+                        for (let i = 0; i < rows.length; i++) {
+                            let photo = rows[i]['photo']
+                            let name = rows[i]['name']
+                            let address = rows[i]['address']
+                            let phone = rows[i]['phone']
+                            let opening_hours = rows[i]['opening_hours']
+
+                            let temp_html = `<div class="card" style="max-width: 540px;">
+                                                  <div class="row g-0">
+                                                    <div class="col-md-4">
+                                                      <img src="${photo}" class="img-fluid rounded-start" alt="...">
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                      <div class="card-body">
+                                                        <h5 class="card-title">${name}</h5>
+                                                        <p class="card-text">${phone}</p>
+                                                        <p class="card-text">${address}</p>
+                                                        <p class="card-text"><small class="text-muted">${opening_hours}</small></p>
+                                                        <button id="com" type="button" class="btn btn-outline-info">들어가기</button>
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                                </div>`
+                            $('#cards-box').append(temp_html)
+                        }
+                    }
+                });
+            }
+
+            function make_post() {
+                console.log(rows)
+            }
+
+            $(document).ready(function () {
+                post_information();
+                get_information();
+                make_post();
+            });
+        </script>
+
+
     </head>
+
     <body>
-        <section class="appbar hero is-link">
+
+         <section class="appbar hero is-link">
             <div class="appbar-text hero-body">
 
                 <span class="title">
                     Animal 119
                 </span>
                     <button class="logout-button button is-link is-light" type="button"
-                            onclick="location.href='http://localhost:5500/login?msg=%EB%A1%9C%EA%B7%B8%EC%9D%B8+%EC%A0%95%EB%B3%B4%EA%B0%80+%EC%A1%B4%EC%9E%AC%ED%95%98%EC%A7%80+%EC%95%8A%EC%8A%B5%EB%8B%88%EB%8B%A4.' ">
+                            onclick="location.href='login' ">
                         로그 아웃
                     </button>
                 <p class="subtitle">
@@ -75,8 +185,13 @@
                 </p>
             </div>
         </section>
-        <strong> 로그인 된 메인 페이지</strong>
+
+
+    <div cards-box onclick="window.location.href = 'detail'"
+         class="row row-cols-1 row-cols-md-4 g-4" id="cards-box">
+    </div>
 
 
     </body>
-</html>
+
+    </html>

@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>병원 상세 페이지</title>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+          crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cute+Font&family=Jua&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+
+
+
+         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+              integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+              crossorigin="anonymous">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+                integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+                crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+                integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+        <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet">
+        <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Cute+Font&family=Jua&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+
+    <style>
+
+        .left_side {
+            float: left;
+            margin-top: 10px;
+            margin-right: auto;
+            margin-left: auto;
+        }
+
+        .right_side {
+            float: right;
+            margin-right: 10px;
+            margin-top: 10px;
+        }
+
+        .image {
+            background-color: pink;
+            width: 400px;
+            height: 400px;
+
+        }
+
+        .message-body {
+            margin-top: 30px;
+        }
+
+        .button {
+            margin-top: 30px;
+        }
+
+        #table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        #table td, #table th {
+            border: 1px solid #ddd;
+            padding: 8px;
+            margin-right: 50px;
+        }
+
+        .comments {
+            font-size: 20px;
+            color: grey;
+            margin-top: 50px;
+        }
+
+        .comment_ask {
+            font-size: 20px;
+            color: grey;
+            margin-top: 50px;
+            margin-bottom: 30px;
+        }
+
+        .appbar {
+            height: 10rem;
+        }
+
+        .appbar-text {
+            margin-top: -40px;
+        }
+
+        .title {
+                font-weight: 700;
+                font-size: 4rem;
+                font-family: 'Jua', sans-serif;
+                margin: 0px;
+            }
+
+            .subtitle {
+                font-size: 3rem;
+                font-family: 'Cute Font', cursive;
+                margin: 0px;
+
+            }
+            .logout-button{
+                margin-top: 10px;
+                float: right;
+                font-family: 'jua', sans-serif;
+
+            }
+
+    </style>
+
+    <script>
+        $(document).ready(function () {
+            show_comment()
+        });
+
+        function save_comment() {
+            let comment = $('#comment').val()
+
+            $.ajax({
+                type: 'POST',
+                url: '/homework',
+                data: {'name_give': name, 'comment_give': comment},
+                success: function (response) {
+                    alert(response['msg'])
+                    window.location.reload()
+                }
+            });
+        }
+
+        function show_comment() {
+            $('#comment-list').empty()
+            $.ajax({
+                type: "GET",
+                url: "/homework",
+                data: {},
+                success: function (response) {
+                    let rows = response['comments']
+                    for (let i = 0; i < rows.length; i++) {
+                        let comment = rows[i]['comment']
+
+                        let temp_html = `<div class="message-body">
+                                            ${comments_list}
+                                        </div>`
+
+                        $('#comment-list').append(temp_html)
+
+                    }
+                }
+            });
+        }
+    </script>
+</head>
+<body>
+
+    <section class="appbar hero is-link">
+            <div class="appbar-text hero-body">
+
+                <span class="title" onclick="location.href='index'">
+                    Animal 119
+                </span>
+                    <button class="logout-button button is-link is-light" type="button"
+                            onclick="location.href='login' ">
+                        로그 아웃
+                    </button>
+                <p class="subtitle">
+                    24H 동물병원
+                </p>
+            </div>
+    </section>
+
+
+<div class="left_side">
+    <div class="image">
+        <figure class="image is-128x128">
+            <img src="https://bulma.io/images/placeholders/128x128.png">
+        </figure>
+    </div>
+    <table id="table">
+        <tr>
+            <th>병원이름</th>
+            <th>Contact</th>
+        </tr>
+        <tr>
+            <td>주소</td>
+            <td>address</td>
+        </tr>
+        <tr>
+            <td>전화번호</td>
+            <td>number</td>
+        </tr>
+        <tr>
+            <td>설명</td>
+            <td>병원 소개</td>
+        </tr>
+        <tr>
+            <td>홈페이지</td>
+            <td>web 주소</td>
+        </tr>
+    </table>
+</div>
+
+<div class="right_side">
+    <p class="comment_ask">별점과 코멘트를 달아주세요</p>
+    <div class="mypost">
+        <div class="input-group mb-3">
+            <label class="input-group-text" for="inputGroupSelect01">별점</label>
+            <select class="form-select" id="inputGroupSelect01">
+                <option selected>별점 선택하기</option>
+                <option value="1">⭐</option>
+                <option value="2">⭐⭐</option>
+                <option value="3">⭐⭐⭐</option>
+                <option value="4">⭐⭐⭐⭐</option>
+                <option value="5">⭐⭐⭐⭐⭐</option>
+            </select>
+        </div>
+    </div>
+    <div id="comment">
+        <input class="input is-info is-medium" type="text" placeholder="이 병원에 대한 코멘트를 남겨주세요!">
+        <button onclick="save_comment()" class="button is-info">Comment 남기기</button>
+    </div>
+
+    <span class="tag is-info is-light comments is-large">Comments</span>
+
+    <div>
+        <article class="message is-info" id="comments_list">
+            <div class="message-body">
+                "병원 너무 좋아요!"
+            </div>
+
+            <div class="message-body">
+                "병원 너무 좋아요!"
+            </div>
+
+            <div class="message-body">
+                "병원 너무 좋아요!"
+            </div>
+
+
+        </article>
+
+    </div>
+
+</div>
+
+
+</body>
+</html>
