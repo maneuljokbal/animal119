@@ -62,3 +62,5 @@ for hospital in hospitals:
             photo = e1['src']
         else:
             photo = 'https://previews.123rf.com/images/siamimages/siamimages1504/siamimages150401064/39173277-%EC%82%AC%EC%A7%84-%EC%97%86%EC%9D%8C-%EC%95%84%EC%9D%B4%EC%BD%98-%EC%97%86%EC%9D%8C.jpg'
+
+크롱ㅋ,러크롱크롱크롱크롱ㅋ,롱
